@@ -1,0 +1,31 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --open",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finestedm/Weather-App.git"
+  },
+  "author": "pawel stepien",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/finestedm/Weather-App/issues"
+  },
+  "homepage": "https://github.com/finestedm/Weather-App#readme",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.1",
+    "webpack-dev-server": "^4.10.0"
+  }
+}
