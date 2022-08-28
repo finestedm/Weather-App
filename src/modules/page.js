@@ -11,5 +11,4 @@ export default function appGenerate() {
     appWindow.append(generateSideNavbar(), generateMainSection(), generateSideWeekForecastSection()); // not all functions are yet ready
 }
 
-
 // create a function so setLocalStorage
