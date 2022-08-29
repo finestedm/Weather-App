@@ -1,3 +1,7 @@
+import { regenerateListOfLocations } from './sideNavbar'
+import { displayForecastForSelectedLocation } from "./mainSection";
+
+
 export var listOfSavedLocations = [];
 
 export class Location {
@@ -17,3 +21,13 @@ export function checkIfCityAlreadySaved(newCityName) {
         return false
     }
 }
+
+async function addBytom() {
+    return new Location('bytom', 18.9231857, 50.3470387)
+}
+
+(async function firstLocation() {
+    const bytomLocation = await addBytom()
+    regenerateListOfLocations()
+    displayForecastForSelectedLocation(bytomLocation)
+})();

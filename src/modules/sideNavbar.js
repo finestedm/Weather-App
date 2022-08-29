@@ -69,7 +69,7 @@ function createLocationEmptyNotification() {
 
 function createLocationOptionElement(location) {
     const locationOption = document.createElement('li');
-    locationOption.innerText = `${location.name} in ${location.state}, lat: ${location.lat}, lon: ${location.lon}`;
+    locationOption.innerHTML = `${location.name} <small> (${location.state}) </small>`;
     locationOption.addEventListener('click', () => {
         if (checkIfCityAlreadySaved(location.name)) {
             console.log('city already added')
@@ -89,7 +89,7 @@ function displaySavedLocations() {
     return listOfSavedLocationsDivHolder
 }
 
-function regenerateListOfLocations() {
+export function regenerateListOfLocations() {
     try {
         document.getElementById('list-of-saved-locations').remove();
     } catch {

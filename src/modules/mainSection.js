@@ -1,4 +1,4 @@
-import createTodayWeatherPanel from './todayWeatherPanel'
+import { createCurrentWeatherMainPanel, createCurrentWindPanel, createCurrentTempMinMaxPanel } from './currentWeatherPanels'
 
 export default function generateMainSection() {
     const main = document.createElement('main');
@@ -7,9 +7,17 @@ export default function generateMainSection() {
 }
 
 export async function displayForecastForSelectedLocation(locationObject) {
+    try {
+        document.getElementById('main-section').innerHTML = ''; // clearing main before appending different city forecast
+    } catch { }
+
     const weatherHolder = document.createElement('div');
     const forecastDataForThisLocation = await fetchCurrentWeatherData(locationObject);
-    weatherHolder.append(createTodayWeatherPanel(forecastDataForThisLocation))
+    weatherHolder.append(
+        createCurrentWeatherMainPanel(forecastDataForThisLocation),
+        createCurrentWindPanel(forecastDataForThisLocation),
+        createCurrentTempMinMaxPanel(forecastDataForThisLocation)
+    )
 
     document.getElementById('main-section').append(weatherHolder)
 
