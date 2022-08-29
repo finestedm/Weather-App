@@ -1,12 +1,12 @@
 import { Location, listOfSavedLocations, checkIfCityAlreadySaved } from "./savedLocations";
+import { displayForecastForSelectedLocation } from "./mainSection";
 
 export default function generateSideNavbar() {
 
     const sideNavbar = document.createElement('nav');
     sideNavbar.classList.add('sidenavbar');
     sideNavbar.id = 'sidenavbar';
-    sideNavbar.append(createLocationSearchBar())
-
+    sideNavbar.append(createLocationSearchBar(), displaySavedLocations())
     return sideNavbar;
 }
 
@@ -20,7 +20,9 @@ function createLocationSearchBar() {
             showProposedLocationsWindows(LocationSearchBar.value)
         }
     })
-    createSuggestedLocationDropdown()
+    setTimeout(() => {
+        createSuggestedLocationDropdown()
+    }, 0);
 
     return LocationSearchBar;
 }
@@ -28,7 +30,7 @@ function createLocationSearchBar() {
 function createSuggestedLocationDropdown() {
     const suggestedLocationDatalist = document.createElement('ul');
     suggestedLocationDatalist.id = 'location-chooser-dropdown';
-    document.getElementById('content').append(suggestedLocationDatalist)
+    document.getElementById('sidenavbar').append(suggestedLocationDatalist)
 }
 
 async function showProposedLocationsWindows(searchedLocation) {
@@ -43,15 +45,16 @@ async function showProposedLocationsWindows(searchedLocation) {
 
 function showLocationChooserDropdown(listOfSuggestedLocations) {
     const locationChooserDropdown = document.getElementById('location-chooser-dropdown');
+    const searchBar = document.getElementById('location-search-bar');
+    locationChooserDropdown.innerHTML = '';
     if (listOfSuggestedLocations.length === 0) {
         locationChooserDropdown.append(createLocationEmptyNotification());
-        setTimeout(() => {
+        searchBar.setCustomValidity('No such city found');
+        searchBar.addEventListener('keydown', () => {
             locationChooserDropdown.innerHTML = '';
-        }, 3000);
-    } else if (locationChooserDropdown === 'empty') {
-        locationChooserDropdown.innerHTML = '';
+            searchBar.setCustomValidity('');
+        })
     } else {
-        locationChooserDropdown.innerHTML = '';
         listOfSuggestedLocations.forEach(location => {
             locationChooserDropdown.append(createLocationOptionElement(location));
         })
@@ -67,22 +70,43 @@ function createLocationEmptyNotification() {
 function createLocationOptionElement(location) {
     const locationOption = document.createElement('li');
     locationOption.innerText = `${location.name} in ${location.state}, lat: ${location.lat}, lon: ${location.lon}`;
-    locationOption.addEventListener('click', async () => {
+    locationOption.addEventListener('click', () => {
         if (checkIfCityAlreadySaved(location.name)) {
             console.log('city already added')
         } else {
-            const locationObject = new Location(location.name, location.lat, location.lon);
-            await fetchCurrentWeatherData(locationObject);
+            new Location(location.name, location.lon, location.lat);
             document.getElementById('location-search-bar').value = '';
             document.getElementById('location-chooser-dropdown').innerHTML = '';  // empties the suggested location list
+            regenerateListOfLocations()
         }
     })
     return locationOption;
 }
 
-async function fetchCurrentWeatherData(locationObject) {
-    const response = await fetch(`${locationObject.currentWeatherURL}`, { mode: 'cors' });
-    const responseJson = await response.json();
-    console.log(responseJson)
-    //append that data to elements in main
+function displaySavedLocations() {
+    const listOfSavedLocationsDivHolder = document.createElement('div');
+    listOfSavedLocationsDivHolder.id = 'list-of-saved-locations-holder'
+    return listOfSavedLocationsDivHolder
 }
+
+function regenerateListOfLocations() {
+    try {
+        document.getElementById('list-of-saved-locations').remove();
+    } catch {
+        { }
+    }
+    const listOfSavedLocationsDivHolder = document.getElementById('list-of-saved-locations-holder');
+    const listOfSavedLocationsDiv = document.createElement('ul');
+    listOfSavedLocationsDiv.id = 'list-of-saved-locations';
+    try {
+        listOfSavedLocations.forEach(location => {
+            const locationButton = document.createElement('li');
+            locationButton.innerText = location.city;
+            locationButton.addEventListener('click', () => displayForecastForSelectedLocation(location))
+            listOfSavedLocationsDiv.append(locationButton);
+        })
+    } catch { { } }
+    listOfSavedLocationsDivHolder.append(listOfSavedLocationsDiv)
+}
+
+
