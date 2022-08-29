@@ -1,4 +1,4 @@
-import { Location, listOfSavedLocations } from "./savedLocations";
+import { Location, listOfSavedLocations, checkIfCityAlreadySaved } from "./savedLocations";
 
 export default function generateSideNavbar() {
 
@@ -32,41 +32,53 @@ function createSuggestedLocationDropdown() {
 }
 
 async function showProposedLocationsWindows(searchedLocation) {
-    const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchedLocation}&lang=pl&limit=5&appid=9f876f750cae75b9e377c00b71db4a27`, { mode: 'cors' });
-    const responseJson = await response.json();
-    showLocationChooserDropdown(responseJson)
+    try {
+        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchedLocation}&lang=pl&limit=5&appid=9f876f750cae75b9e377c00b71db4a27`, { mode: 'cors' });
+        const responseJson = await response.json();
+        showLocationChooserDropdown(responseJson)
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function showLocationChooserDropdown(listOfSuggestedLocations) {
     const locationChooserDropdown = document.getElementById('location-chooser-dropdown');
-    if (listOfSuggestedLocations !== null) {
+    if (listOfSuggestedLocations.length === 0) {
+        locationChooserDropdown.append(createLocationEmptyNotification());
+        setTimeout(() => {
+            locationChooserDropdown.innerHTML = '';
+        }, 3000);
+    } else if (locationChooserDropdown === 'empty') {
+        locationChooserDropdown.innerHTML = '';
+    } else {
+        locationChooserDropdown.innerHTML = '';
         listOfSuggestedLocations.forEach(location => {
-            const locationOption = document.createElement('li');
-            locationOption.innerText = `${location.name} in ${location.state}, ${location.lat}/${location.lon}`;
-            locationOption.addEventListener('click', () => {
-                const locationObject = new Location(location.name, location.lat, location.lon)
-                showLocationChooserDropdown(null);
-                document.getElementById('location-search-bar').value = ''
-                // showListOfLocation();
-                fetchCurrentWeatherData(locationObject)
-            })
-            locationChooserDropdown.append(locationOption);
+            locationChooserDropdown.append(createLocationOptionElement(location));
         })
-    } else {        // find a better way to clear the locationChooserDropdown
-        locationChooserDropdown.remove()
-        createSuggestedLocationDropdown()
     }
 }
 
-// function showListOfLocation() {
-//     const listOfLocation = document.createElement('ul');
-//     listOfSavedLocations.forEach(location => {
-//         const locationDiv = document.createElement('li');
-//         locationDiv.innerText = location.city;
-//         listOfLocation.append(locationDiv);
-//     })
-//     document.getElementById('content').append(listOfLocation)
-// }
+function createLocationEmptyNotification() {
+    const locationOption = document.createElement('li');
+    locationOption.innerText = `No city with this name found.`;
+    return locationOption;
+}
+
+function createLocationOptionElement(location) {
+    const locationOption = document.createElement('li');
+    locationOption.innerText = `${location.name} in ${location.state}, lat: ${location.lat}, lon: ${location.lon}`;
+    locationOption.addEventListener('click', async () => {
+        if (checkIfCityAlreadySaved(location.name)) {
+            console.log('city already added')
+        } else {
+            const locationObject = new Location(location.name, location.lat, location.lon);
+            await fetchCurrentWeatherData(locationObject);
+            document.getElementById('location-search-bar').value = '';
+            document.getElementById('location-chooser-dropdown').innerHTML = '';  // empties the suggested location list
+        }
+    })
+    return locationOption;
+}
 
 async function fetchCurrentWeatherData(locationObject) {
     const response = await fetch(`${locationObject.currentWeatherURL}`, { mode: 'cors' });
