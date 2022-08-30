@@ -1,4 +1,6 @@
 import compassIcon from '../assets/icons/compass-n.svg'
+import { format } from 'date-fns'
+
 
 export function createCurrentWeatherMainPanel(weatherData) {
     const currentWeatherPanel = document.createElement('section')
@@ -8,13 +10,40 @@ export function createCurrentWeatherMainPanel(weatherData) {
 
     console.log(weatherData) // delete later
 
+    const weatherPanelTopLine = document.createElement('div')
+    weatherPanelTopLine.id = 'current-weather-panel-top-line';
+    weatherPanelTopLine.append(createCityName(weatherData.name), createFetchDate())
+
+    const weatherPanelMiddleLine = document.createElement('div')
+    weatherPanelMiddleLine.id = 'current-weather-panel-middle-line';
+    weatherPanelMiddleLine.append(createCurrentTemp(weatherData.main.temp), createCurrentDescription(weatherData.weather[0].description))
+
+    const weatherPanelBottomLine = document.createElement('div')
+    weatherPanelBottomLine.id = 'current-weather-panel-bottom-line';
+    weatherPanelBottomLine.append(createCurrentPressure(weatherData.main.pressure), createCurrentWind(weatherData.wind.speed))
+
     currentWeatherPanel.append(
-        createCurrentTemp(weatherData.main.temp),
-        createCurrentDescription(weatherData.weather[0].description),
-        createCurrentPressure(weatherData.main.pressure)
-        //add time of sync 
+        weatherPanelTopLine,
+        weatherPanelMiddleLine,
+        weatherPanelBottomLine
     );
     return currentWeatherPanel;
+}
+
+function createCityName(city) {
+    const cityName = document.createElement('h3');
+    cityName.id = 'current-weather-city';
+    cityName.classList.add('main', 'current', 'weather-panel', 'city')
+    cityName.innerText = city;
+    return cityName
+}
+
+function createFetchDate() {
+    const fetchDate = document.createElement('p');
+    fetchDate.id = 'current-weather-date';
+    fetchDate.classList.add('main', 'current', 'weather-panel', 'date')
+    fetchDate.innerText = `Today, ${format(new Date(), 'H:mm')}`;
+    return fetchDate
 }
 
 function createCurrentTemp(temp) {
@@ -41,6 +70,15 @@ function createCurrentPressure(pressure) {
     currentPressure.innerText = pressure;
 
     return currentPressure
+}
+
+function createCurrentWind(windSpeed) {
+    const currentWindSpeed = document.createElement('p');
+    currentWindSpeed.id = 'current-weather-wind-speed';
+    currentWindSpeed.classList.add('main', 'current', 'weather-panel', 'wind-speed')
+    currentWindSpeed.innerText = windSpeed;
+
+    return currentWindSpeed
 }
 
 function stringIntoTemp(temp) {
@@ -93,6 +131,6 @@ export function createCurrentTempMinMaxPanel(weatherData) {
     currentTempMinMax.id = 'current-weather-temp-min-max';
     currentTempMinMax.classList.add('main', 'current', 'weather-panel', 'temp', 'min-max')
     currentTempMinMax.innerText = `${stringIntoTemp(weatherData.main.temp_min)} - ${stringIntoTemp(weatherData.main.temp_max)}`;
-    
-    return currentTempMinMax
+    minMaxTempPanel.append(currentTempMinMax)
+    return minMaxTempPanel
 }

@@ -12,6 +12,7 @@ export async function displayForecastForSelectedLocation(locationObject) {
     } catch { }
 
     const weatherHolder = document.createElement('div');
+    weatherHolder.id = 'main--weather-panel-wrapper';
     const forecastDataForThisLocation = await fetchCurrentWeatherData(locationObject);
     weatherHolder.append(
         createCurrentWeatherMainPanel(forecastDataForThisLocation),

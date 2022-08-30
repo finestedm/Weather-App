@@ -145,13 +145,15 @@ body {
     --background-gray: hsl(260, 20%, 97%);
     --background-dark: #14121e;
     --text-color-90: #ffffff7a --text-color-70: #868686;
-    --text-color-10: hsl(0, 0%, 100%);
-    --text-color-20: hsl(234, 10%, 90%);
-    --text-color-30: #5d5d74;
+    --text-color-10: hsl(0, 0%, 93%);
+    --text-color-20: hsl(0, 0%, 70%);
+    --text-color-30: #62626e;
     --button-hover: #cfd2ea;
     --box-shadow: rgba(0, 0, 0, 0.22);
     --accent-color-green: #d7f7dc;
     --accent-color-purple: #c4c7fa;
+    --accent-color-purple-intense: #9397e4;
+
 
 }
 
@@ -184,19 +186,31 @@ nav#sidenavbar {
         "saved-locations";
     justify-content: start;
     align-content: flex-start;
+    border-right: 2px solid var(--text-color-10);
+    gap: 2rem;
 }
 
 #location-search-bar-wrapper {
     grid-area: search-bar;
     height: 2rem;
     padding: 0 .5rem;
+    margin: 2rem 1rem;
+
 }
 
 #list-of-saved-locations-holder {
     grid-area: saved-locations;
+    margin: 0 0 0 1rem;
+
 }
 
-input:invalid {
+input#location-search-bar {
+    border: 3px solid var(--background-gray);
+    background-color: var(--background-gray);
+    padding: .5rem;
+}
+
+input#location-search-bar:invalid {
     border: 3px solid #c96b6ba8
 }
 
@@ -207,4 +221,167 @@ img {
 
 select {
     display: block;
+}
+
+#location-chooser-dropdown {
+    position: relative;
+    z-index: 2;
+    padding: .25rem .75rem;
+    background-color: var(--background-gray);
+    border-radius: 0 0 .5rem .5rem;
+
+}
+
+#location-chooser-dropdown>li {
+    padding: .75rem;
+    margin: .75rem 0;
+    background-color: white;
+    border-radius: .5rem;
+}
+
+#location-chooser-dropdown>li:hover {
+    background-color: var(--accent-color-purple);
+}
+
+small {
+    font-size: .8rem;
+}
+
+#list-of-saved-locations-holder {
+    padding-left: 1rem;
+}
+
+#list-of-saved-locations-holder>h2 {
+    color: var(--text-color-20);
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .25px;
+    margin: 1rem 0;
+
+}
+
+#list-of-saved-locations>li {
+    color: var(--text-color-30);
+    font-size: 1rem;
+    text-transform: capitalize;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: .5rem .25rem;
+    margin-bottom: 1rem;
+    margin-right: -2px;
+    z-index: 1;
+
+}
+
+#list-of-saved-locations>li:hover {
+    color: var(--text-color-90);
+    font-weight: 500;
+    border-right: 2px solid var(--accent-color-purple-intense);
+}
+
+
+#list-of-saved-locations>li::before {
+    content: url('./assets/icons/location.svg');
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem
+}
+
+#main--weather-panel-wrapper {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem;
+}
+
+#main--weather-panel-wrapper>section {
+    border-radius: 1.25rem;
+    background: var(--background-gray);
+    padding: 1.5rem;
+
+}
+
+#main--weather-panel-wrapper>#current-weather-panel {
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template: 2rem 1fr 2rem / 1fr;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel>#current-weather-panel-middle-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-city {
+    font-size: 1.33rem;
+    margin-left: 1.2rem;
+    margin-right: auto;
+    position: relative;
+    font-weight: 500;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-city::before {
+    content: url('./assets/icons/location.svg');
+    position: absolute;
+    left: -1.6rem;
+    top: -.1rem
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-date {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-temp {
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: -6px;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-temp::after {
+    content: '℃';
+    font-size: 3rem;
+    position: relative;
+    top: -2rem
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-description {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure {
+    font-weight: 400;
+    margin-right: auto;
+    position: relative;
+    margin-left: 2rem;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure::before {
+    content: '';
+    background-image: url('./assets/icons/pressure.svg');
+    background-size: 1.5rem;
+    position: absolute;
+    height: 1.5rem;
+    width: 1.5rem;
+    left: -2rem;
+    top: -.3rem
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure::after {
+    content: 'hPa';
+    margin-left: .25rem;
 }
