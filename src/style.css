@@ -181,20 +181,19 @@ nav#sidenavbar {
     display: grid;
     grid-template-areas:
         "search-bar"
-        "suggested-locations"
         "saved-locations";
+    justify-content: start;
+    align-content: flex-start;
 }
 
-#location-search-bar {
+#location-search-bar-wrapper {
     grid-area: search-bar;
+    height: 2rem;
+    padding: 0 .5rem;
 }
 
 #list-of-saved-locations-holder {
     grid-area: saved-locations;
-}
-
-#location-chooser-dropdown {
-    grid-area: suggested-locations;
 }
 
 input:invalid {
@@ -204,4 +203,8 @@ input:invalid {
 img {
     height: 50px;
     width: 50px;
+}
+
+select {
+    display: block;
 }

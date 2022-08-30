@@ -11,6 +11,8 @@ export default function generateSideNavbar() {
 }
 
 function createLocationSearchBar() {
+    const locationSearchBarWrapper = document.createElement('div')
+    locationSearchBarWrapper.id = 'location-search-bar-wrapper';
     const LocationSearchBar = document.createElement('input');
     LocationSearchBar.type = 'text';
     LocationSearchBar.name = 'search-location';
@@ -19,18 +21,19 @@ function createLocationSearchBar() {
         if (e.key === 'Enter') {
             showProposedLocationsWindows(LocationSearchBar.value)
         }
-    })
+    });
     setTimeout(() => {
         createSuggestedLocationDropdown()
     }, 0);
 
-    return LocationSearchBar;
+    locationSearchBarWrapper.append(LocationSearchBar)
+    return locationSearchBarWrapper;
 }
 
 function createSuggestedLocationDropdown() {
     const suggestedLocationDatalist = document.createElement('ul');
     suggestedLocationDatalist.id = 'location-chooser-dropdown';
-    document.getElementById('sidenavbar').append(suggestedLocationDatalist)
+    document.getElementById('location-search-bar-wrapper').append(suggestedLocationDatalist);
 }
 
 async function showProposedLocationsWindows(searchedLocation) {
@@ -68,14 +71,20 @@ function createLocationEmptyNotification() {
 }
 
 function createLocationOptionElement(location) {
+    const searchBar = document.getElementById('location-search-bar');
+    const locationChooserDropdown = document.getElementById('location-chooser-dropdown');
     const locationOption = document.createElement('li');
     locationOption.innerHTML = `${location.name} <small> (${location.state}) </small>`;
     locationOption.addEventListener('click', () => {
         if (checkIfCityAlreadySaved(location.name)) {
-            console.log('city already added')
+            searchBar.setCustomValidity('This city is already in saved locations list');
+            searchBar.addEventListener('keydown', () => {
+                locationChooserDropdown.innerHTML = '';
+                searchBar.setCustomValidity('');
+            })
         } else {
             new Location(location.name, location.lon, location.lat);
-            document.getElementById('location-search-bar').value = '';
+            searchBar.value = '';
             document.getElementById('location-chooser-dropdown').innerHTML = '';  // empties the suggested location list
             regenerateListOfLocations()
         }
