@@ -23,11 +23,8 @@ function createLocationSearchBar() {
             showProposedLocationsWindows(LocationSearchBar.value)
         }
     });
-    setTimeout(() => {
-        createSuggestedLocationDropdown()
-    }, 0);
 
-    locationSearchBarWrapper.append(LocationSearchBar)
+    locationSearchBarWrapper.append(LocationSearchBar, createSuggestedLocationDropdown())
     return locationSearchBarWrapper;
 }
 
@@ -35,12 +32,12 @@ function createSuggestedLocationDropdown() {
     const suggestedLocationDatalist = document.createElement('ul');
     suggestedLocationDatalist.style.visibility = 'hidden'
     suggestedLocationDatalist.id = 'location-chooser-dropdown';
-    document.getElementById('location-search-bar-wrapper').append(suggestedLocationDatalist);
+    return suggestedLocationDatalist
 }
 
 async function showProposedLocationsWindows(searchedLocation) {
     try {
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchedLocation}&lang=pl&limit=5&appid=9f876f750cae75b9e377c00b71db4a27`, { mode: 'cors' });
+        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchedLocation}&lang=pl&limit=5&appid=9f876f750cae75b9e377c00b71db4a27`, { mode: 'cors' });
         const responseJson = await response.json();
         showLocationChooserDropdown(responseJson)
     } catch (error) {

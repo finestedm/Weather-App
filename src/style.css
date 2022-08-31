@@ -153,6 +153,8 @@ body {
     --accent-color-green: #d7f7dc;
     --accent-color-purple: #c4c7fa;
     --accent-color-purple-intense: #9397e4;
+    --border-color-10: hsl(0, 0%, 95%);
+
 
 
 }
@@ -207,7 +209,9 @@ nav#sidenavbar {
 input#location-search-bar {
     border: 3px solid var(--background-gray);
     background-color: var(--background-gray);
-    padding: .5rem;
+    padding: 1rem .5rem;
+    border: 1px solid var(--border-color-10);
+    border-radius: .35rem;
 }
 
 input#location-search-bar:invalid {
@@ -237,6 +241,7 @@ select {
     margin: .75rem 0;
     background-color: white;
     border-radius: .5rem;
+    position: relative;
 }
 
 #location-chooser-dropdown>li:hover {
@@ -271,18 +276,34 @@ small {
     margin-bottom: 1rem;
     margin-right: -2px;
     z-index: 1;
+    transition: all .2s ease-in-out;
+}
 
+
+#list-of-saved-locations>li::after {
+    transform: scaleY(0);
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    background-color: var(--accent-color-purple-intense);
+    transition: all .2s ease-in-out;
+
+}
+
+#list-of-saved-locations>li:hover::after {
+    transform: scaleY(1);
 }
 
 #list-of-saved-locations>li:hover {
     color: var(--text-color-90);
     font-weight: 500;
-    border-right: 2px solid var(--accent-color-purple-intense);
 }
 
 
 #list-of-saved-locations>li::before {
-    content: url('./assets/icons/location.svg');
+    content: url('./assets/icons/location2.svg');
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
@@ -303,6 +324,7 @@ small {
     border-radius: 1.25rem;
     background: var(--background-gray);
     padding: 1.5rem;
+    border: 1px solid var(--border-color-10);
 
 }
 
@@ -334,10 +356,13 @@ small {
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-city::before {
-    content: url('./assets/icons/location.svg');
+    content: url('./assets/icons/location2.svg');
+    display: inline-block;
     position: absolute;
     left: -1.6rem;
-    top: -.1rem
+    top: -.2rem;
+    height: 1.6rem;
+    width: 1.6rem;
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-date {
