@@ -1,4 +1,5 @@
 import { createCurrentWeatherMainPanel, createCurrentWindPanel, createCurrentTempMinMaxPanel } from './currentWeatherPanels'
+import { highlightCurrentLocationButton } from './sideNavbar'
 
 export default function generateMainSection() {
     const main = document.createElement('main');
@@ -22,6 +23,7 @@ export async function displayForecastForSelectedLocation(locationObject) {
 
     document.getElementById('main-section').append(weatherHolder)
 
+    highlightCurrentLocationButton(locationObject.name)
 }
 
 async function fetchCurrentWeatherData(locationObject) {

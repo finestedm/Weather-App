@@ -85,10 +85,11 @@ function createLocationOptionElement(location) {
                 searchBar.setCustomValidity('');
             })
         } else {
-            new Location(location.name, location.lon, location.lat);
+            const newLocationObject = new Location(location.name, location.lon, location.lat);
             searchBar.value = '';
             locationChooserDropdown.innerHTML = '';  // empties the suggested location list
             locationChooserDropdown.style.visibility = 'hidden'
+            displayForecastForSelectedLocation(newLocationObject)   // automatically display the newly added location forecast
             regenerateListOfLocations()
         }
     })
@@ -122,4 +123,12 @@ export function regenerateListOfLocations() {
     listOfSavedLocationsDivHolder.append(listOfSavedLocationsDiv)
 }
 
-
+export function highlightCurrentLocationButton() {
+    const currentLocationName = document.getElementById('current-weather-city').innerText;
+    const listOfAddedLocations = document.querySelectorAll('#list-of-saved-locations>li');
+    listOfAddedLocations.forEach(location => {
+        location.classList.remove('active-location');
+        location.classList.remove('inactive-location');
+        location.innerText === currentLocationName ? location.classList.add('active-location') : location.classList.add('inactive-location');
+    })
+}

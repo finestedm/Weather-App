@@ -154,10 +154,15 @@ body {
     --accent-color-purple: #c4c7fa;
     --accent-color-purple-intense: #9397e4;
     --border-color-10: hsl(0, 0%, 95%);
-
-
-
+    --background-clearsky: #c0e1fd;
+    --text-clearsky: #4a6b88;
 }
+
+.overcastclouds {
+    background-color: #c0e1fd;
+    color: var(--text-clearsky)
+}
+
 
 button {
     font-family: 'Roboto', sans-serif;
@@ -289,10 +294,13 @@ small {
     right: 0;
     background-color: var(--accent-color-purple-intense);
     transition: all .2s ease-in-out;
-
 }
 
-#list-of-saved-locations>li:hover::after {
+.active-location {
+    border-right: 2px solid var(--accent-color-purple-intense);
+}
+
+#list-of-saved-locations>li.inactive-location:hover::after {
     transform: scaleY(1);
 }
 
@@ -303,11 +311,20 @@ small {
 
 
 #list-of-saved-locations>li::before {
-    content: url('./assets/icons/location2.svg');
+    content: '';
+    mask: url('./assets/icons/location2.svg');
+    background-color: var(--text-color-30);
     display: inline-block;
+    mask-size: 1.5rem;
     width: 1.5rem;
     height: 1.5rem;
-    margin-right: 1rem
+    margin-right: 1rem;
+    transition: all .2s ease-in-out;
+}
+
+#list-of-saved-locations>li:hover::before {
+    background-color: black;
+
 }
 
 #main--weather-panel-wrapper {
@@ -332,12 +349,35 @@ small {
     grid-column: 1 / span 2;
     display: grid;
     grid-template: 2rem 1fr 2rem / 1fr;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel::after {
+    position: absolute;
+    /* background-color: rgba(255, 255, 255, 0.4); */
+    content: '';
+    height: 100%;
+    width: 100%;
+    /* backdrop-filter: contrast(.7) blur(2px);
+    border-radius: 1rem; */
+}
+
+#main--weather-panel-wrapper>#current-weather-panel>* {
+    opacity: .9;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel * {
+    z-index: 2;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.4);
 }
 
 #main--weather-panel-wrapper>#current-weather-panel>div {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 #main--weather-panel-wrapper>#current-weather-panel>#current-weather-panel-middle-line {
@@ -397,8 +437,9 @@ small {
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure::before {
     content: '';
-    background-image: url('./assets/icons/pressure.svg');
-    background-size: 1.5rem;
+    mask: url('./assets/icons/pressure.svg');
+    background-color: black;
+    mask-size: 1.5rem;
     position: absolute;
     height: 1.5rem;
     width: 1.5rem;

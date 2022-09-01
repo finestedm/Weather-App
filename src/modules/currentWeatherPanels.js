@@ -1,4 +1,5 @@
 import compassIcon from '../assets/icons/compass-n.svg'
+import clearSkyBackground from '../assets/background-images/clear sky.jpg'
 import { format } from 'date-fns'
 
 
@@ -6,9 +7,6 @@ export function createCurrentWeatherMainPanel(weatherData) {
     const currentWeatherPanel = document.createElement('section')
     currentWeatherPanel.id = 'current-weather-panel';
     currentWeatherPanel.classList.add('main', 'current', 'weather-panel')
-    currentWeatherPanel.setAttribute('dataset', `${setBackgroundColorBasedOnWeather(weatherData.weather[0].id)}`)
-
-    console.log(weatherData) // delete later
 
     const weatherPanelTopLine = document.createElement('div')
     weatherPanelTopLine.id = 'current-weather-panel-top-line';
@@ -27,6 +25,8 @@ export function createCurrentWeatherMainPanel(weatherData) {
         weatherPanelMiddleLine,
         weatherPanelBottomLine
     );
+    // currentWeatherPanel.style.backgroundImage = `url(${clearSkyBackground})`
+    currentWeatherPanel.classList.add(`${weatherData.weather[0].description.replace(/\s/g, '')}`);
     return currentWeatherPanel;
 }
 
