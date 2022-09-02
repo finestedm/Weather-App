@@ -144,25 +144,66 @@ body {
     --background-white: white;
     --background-gray: hsl(260, 20%, 97%);
     --background-dark: #14121e;
-    --text-color-90: #ffffff7a --text-color-70: #868686;
+    --text-color-90: hsl(0, 0%, 20%);
+    --text-color-70: hsl(0, 0%, 30%);
     --text-color-10: hsl(0, 0%, 93%);
     --text-color-20: hsl(0, 0%, 70%);
-    --text-color-30: #62626e;
+    --text-color-30: hsl(0, 0%, 60%);
     --button-hover: #cfd2ea;
     --box-shadow: rgba(0, 0, 0, 0.22);
     --accent-color-green: #d7f7dc;
     --accent-color-purple: #c4c7fa;
     --accent-color-purple-intense: #9397e4;
     --border-color-10: hsl(0, 0%, 95%);
-    --background-clearsky: #c0e1fd;
-    --text-clearsky: #4a6b88;
+    --background-clearsky: linear-gradient(145deg, rgba(192, 230, 253, 1) 0%, rgba(110, 165, 255, 1) 100%);
+    --text-clearsky: #2d4a63;
+    --background-clouds: linear-gradient(170deg, rgba(149, 172, 193, 1) 0%, rgb(95, 137, 172) 22%, rgb(128, 166, 207) 100%);
+    --text-clouds: #24303b;
+    --background-thunderstorm: linear-gradient(170deg, rgba(255, 251, 251, 1) 0%, rgba(231, 215, 218, 1) 20%, rgba(238, 213, 189, 1) 13%, rgba(79, 89, 152, 1) 77%);
+    --text-thunderstorm: #282b2e;
+    --background-rain: linear-gradient(170deg, rgba(149, 172, 193, 1) 0%, rgb(63, 97, 124) 22%, rgb(79, 110, 143) 100%);
+    --text-rain: #24303b;
 }
 
-.overcastclouds {
-    background-color: #c0e1fd;
-    color: var(--text-clearsky)
+.clear {
+    background: var(--background-clearsky);
+    color: var(--text-clearsky);
 }
 
+.clear #current-weather-city-icon,
+.clear #current-weather-pressure-icon {
+    background-color: var(--text-clearsky);
+}
+
+.clouds {
+    background: var(--background-clouds);
+    color: var(--text-clouds)
+}
+
+.clouds #current-weather-city-icon,
+.clouds #current-weather-pressure-icon {
+    background-color: var(--text-clouds);
+}
+
+.rain {
+    background: var(--background-rain);
+    color: var(--text-rain)
+}
+
+.rain #current-weather-city-icon,
+.rain #current-weather-pressure-icon {
+    background-color: var(--text-rain);
+}
+
+.thunderstorm {
+    background: var(--background-thunderstorm);
+    color: var(--text-thunderstorm)
+}
+
+.thunderstorm #current-weather-city-icon,
+.thunderstorm #current-weather-pressure-icon {
+    background-color: var(--text-thunderstorm);
+}
 
 button {
     font-family: 'Roboto', sans-serif;
@@ -284,6 +325,15 @@ small {
     transition: all .2s ease-in-out;
 }
 
+#list-of-saved-locations>li>img {
+    position: relative;
+    top: -.08rem;
+    left: -.5rem;
+    height: 1.6rem;
+    width: 1.6rem;
+
+}
+
 
 #list-of-saved-locations>li::after {
     transform: scaleY(0);
@@ -305,12 +355,12 @@ small {
 }
 
 #list-of-saved-locations>li:hover {
-    color: var(--text-color-90);
+    color: var(--text-color-70);
     font-weight: 500;
 }
 
 
-#list-of-saved-locations>li::before {
+/* #list-of-saved-locations>li::before {
     content: '';
     mask: url('./assets/icons/location2.svg');
     background-color: var(--text-color-30);
@@ -325,7 +375,7 @@ small {
 #list-of-saved-locations>li:hover::before {
     background-color: black;
 
-}
+} */
 
 #main--weather-panel-wrapper {
     display: grid;
@@ -339,10 +389,13 @@ small {
 
 #main--weather-panel-wrapper>section {
     border-radius: 1.25rem;
-    background: var(--background-gray);
     padding: 1.5rem;
     border: 1px solid var(--border-color-10);
+    box-shadow: 0 0 10px var(--text-color-10);
+}
 
+#main--weather-panel-wrapper>section:not(#current-weather-panel) {
+    background: var(--background-gray);
 }
 
 #main--weather-panel-wrapper>#current-weather-panel {
@@ -354,24 +407,10 @@ small {
     position: relative;
 }
 
-#main--weather-panel-wrapper>#current-weather-panel::after {
-    position: absolute;
-    /* background-color: rgba(255, 255, 255, 0.4); */
-    content: '';
-    height: 100%;
-    width: 100%;
-    /* backdrop-filter: contrast(.7) blur(2px);
-    border-radius: 1rem; */
-}
-
 #main--weather-panel-wrapper>#current-weather-panel>* {
     opacity: .9;
 }
 
-#main--weather-panel-wrapper>#current-weather-panel * {
-    z-index: 2;
-    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.4);
-}
 
 #main--weather-panel-wrapper>#current-weather-panel>div {
     display: flex;
@@ -393,16 +432,17 @@ small {
     margin-right: auto;
     position: relative;
     font-weight: 500;
+    text-transform: capitalize
 }
 
-#main--weather-panel-wrapper>#current-weather-panel #current-weather-city::before {
-    content: url('./assets/icons/location2.svg');
-    display: inline-block;
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-city-icon {
+    mask: url('./assets/icons/location2.svg');
+    mask-size: 1.5rem;
     position: absolute;
     left: -1.6rem;
-    top: -.2rem;
-    height: 1.6rem;
-    width: 1.6rem;
+    top: -.15rem;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-date {
@@ -428,26 +468,36 @@ small {
     font-weight: 500;
 }
 
-#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure {
-    font-weight: 400;
-    margin-right: auto;
-    position: relative;
-    margin-left: 2rem;
+#main--weather-panel-wrapper>#current-weather-panel>#current-weather-panel-bottom-line {
+    display: flex;
+    justify-content: space-between;
 }
 
-#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure::before {
-    content: '';
+#main--weather-panel-wrapper>#current-weather-panel>#current-weather-panel-bottom-line>* {
+    width: 150px;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure {
+    display: flex;
+    font-weight: 400;
+    position: relative;
+    align-items: center;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure-icon {
     mask: url('./assets/icons/pressure.svg');
-    background-color: black;
     mask-size: 1.5rem;
-    position: absolute;
+    position: relative;
     height: 1.5rem;
     width: 1.5rem;
-    left: -2rem;
-    top: -.3rem
+    margin-right: .25rem;
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure::after {
     content: 'hPa';
     margin-left: .25rem;
+}
+
+#main--weather-panel-wrapper>#current-weather-panel #current-weather-wind-speed {
+    text-align: right;
 }

@@ -3,30 +3,29 @@ import clearSkyBackground from '../assets/background-images/clear sky.jpg'
 import { format } from 'date-fns'
 
 
-export function createCurrentWeatherMainPanel(weatherData) {
+export function createCurrentWeatherMainPanel(weatherData, cityName) {
     const currentWeatherPanel = document.createElement('section')
     currentWeatherPanel.id = 'current-weather-panel';
-    currentWeatherPanel.classList.add('main', 'current', 'weather-panel')
+    currentWeatherPanel.classList.add('main', 'current', 'weather-panel', `${conditionsIdIntoString(weatherData.weather[0].id)}`)
 
     const weatherPanelTopLine = document.createElement('div')
     weatherPanelTopLine.id = 'current-weather-panel-top-line';
-    weatherPanelTopLine.append(createCityName(weatherData.name), createFetchDate())
+    weatherPanelTopLine.append(createCityName(cityName), createFetchDate())
 
     const weatherPanelMiddleLine = document.createElement('div')
     weatherPanelMiddleLine.id = 'current-weather-panel-middle-line';
-    weatherPanelMiddleLine.append(createCurrentTemp(weatherData.main.temp), createCurrentDescription(weatherData.weather[0].description))
+    weatherPanelMiddleLine.append(createCurrentTemp(weatherData.main.temp), (createCurrentDescription(weatherData.weather[0].description)));
 
     const weatherPanelBottomLine = document.createElement('div')
     weatherPanelBottomLine.id = 'current-weather-panel-bottom-line';
-    weatherPanelBottomLine.append(createCurrentPressure(weatherData.main.pressure), createCurrentWind(weatherData.wind.speed))
+    weatherPanelBottomLine.append(createCurrentPressure(weatherData.main.pressure), createCurrentRain(weatherData), createCurrentWind(weatherData.wind.speed))
 
     currentWeatherPanel.append(
         weatherPanelTopLine,
         weatherPanelMiddleLine,
         weatherPanelBottomLine
     );
-    // currentWeatherPanel.style.backgroundImage = `url(${clearSkyBackground})`
-    currentWeatherPanel.classList.add(`${weatherData.weather[0].description.replace(/\s/g, '')}`);
+
     return currentWeatherPanel;
 }
 
@@ -35,6 +34,12 @@ function createCityName(city) {
     cityName.id = 'current-weather-city';
     cityName.classList.add('main', 'current', 'weather-panel', 'city')
     cityName.innerText = city;
+    
+    const currentCityIcon = document.createElement('div');
+    currentCityIcon.id = 'current-weather-city-icon';
+
+    cityName.append(currentCityIcon);
+
     return cityName
 }
 
@@ -69,7 +74,18 @@ function createCurrentPressure(pressure) {
     currentPressure.classList.add('main', 'current', 'weather-panel', 'pressure')
     currentPressure.innerText = pressure;
 
+    const currentPressureIcon = document.createElement('div');
+    currentPressureIcon.id = 'current-weather-pressure-icon';
+
+    currentPressure.prepend(currentPressureIcon);
     return currentPressure
+}
+
+function createCurrentRain(weatherData) {
+    const currentRain = document.createElement('p');
+    currentRain.id = 'current-weather-rain';
+    currentRain.classList.add('main', 'current', 'weather-panel', 'rain')
+    return (weatherData.rain != null) ? currentRain.innerText = `${weatherData[rain][0]}` : currentRain.innerText = 0;  // mało widoczne w dom, uwaga ;)
 }
 
 function createCurrentWind(windSpeed) {
@@ -85,7 +101,7 @@ function stringIntoTemp(temp) {
     return Math.round(temp)
 }
 
-function setBackgroundColorBasedOnWeather(conditions) {
+export function conditionsIdIntoString(conditions) {
     if (conditions >= 200 && conditions < 300) {
         return 'thunderstorm'
     } else if (conditions >= 300 && conditions < 400) {

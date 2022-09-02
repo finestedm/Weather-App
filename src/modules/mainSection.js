@@ -16,7 +16,7 @@ export async function displayForecastForSelectedLocation(locationObject) {
     weatherHolder.id = 'main--weather-panel-wrapper';
     const forecastDataForThisLocation = await fetchCurrentWeatherData(locationObject);
     weatherHolder.append(
-        createCurrentWeatherMainPanel(forecastDataForThisLocation),
+        createCurrentWeatherMainPanel(forecastDataForThisLocation, locationObject.city),
         createCurrentWindPanel(forecastDataForThisLocation),
         createCurrentTempMinMaxPanel(forecastDataForThisLocation)
     )
@@ -26,8 +26,9 @@ export async function displayForecastForSelectedLocation(locationObject) {
     highlightCurrentLocationButton(locationObject.name)
 }
 
-async function fetchCurrentWeatherData(locationObject) {
+export async function fetchCurrentWeatherData(locationObject) {
     const response = await fetch(`${locationObject.currentWeatherURL}`, { mode: 'cors' });
     const responseJson = await response.json();
+    console.log(responseJson);
     return responseJson
 }

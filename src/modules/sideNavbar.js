@@ -1,5 +1,7 @@
 import { Location, listOfSavedLocations, checkIfCityAlreadySaved } from "./savedLocations";
-import { displayForecastForSelectedLocation } from "./mainSection";
+import { displayForecastForSelectedLocation, fetchCurrentWeatherData } from "./mainSection";
+import { conditionsIdIntoString } from "./currentWeatherPanels";
+import { getIconSvgURL } from './location-icons'
 
 export default function generateSideNavbar() {
 
@@ -113,11 +115,16 @@ export function regenerateListOfLocations() {
     const listOfSavedLocationsDiv = document.createElement('ul');
     listOfSavedLocationsDiv.id = 'list-of-saved-locations';
     try {
-        listOfSavedLocations.forEach(location => {
+        listOfSavedLocations.forEach(async location => {
             const locationButton = document.createElement('li');
             locationButton.innerText = location.city;
-            locationButton.addEventListener('click', () => displayForecastForSelectedLocation(location))
+            locationButton.addEventListener('click', () => displayForecastForSelectedLocation(location, location.city));
+            const locationButtonWeatherIcon = document.createElement('img');
+            locationButtonWeatherIcon.id = 'weather-icon'
+            locationButton.prepend(locationButtonWeatherIcon);
             listOfSavedLocationsDiv.append(locationButton);
+            const forecast = await fetchCurrentWeatherData(location);
+            locationButtonWeatherIcon.src = (getIconSvgURL(conditionsIdIntoString(forecast.weather[0].id)));
         })
     } catch { { } }
     listOfSavedLocationsDivHolder.append(listOfSavedLocationsDiv)
