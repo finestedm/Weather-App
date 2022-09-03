@@ -9,7 +9,8 @@ export class Location {
         this.city = city;
         this.lon = lon;
         this.lat = lat;
-        this.currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&units=metric&appid=9f876f750cae75b9e377c00b71db4a27`
+        this.currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&units=metric&appid=9f876f750cae75b9e377c00b71db4a27`;
+        this.fiveDayWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&units=metric&appid=9f876f750cae75b9e377c00b71db4a27`;
         listOfSavedLocations.push(this)
     }
 }
@@ -22,6 +23,8 @@ export function checkIfCityAlreadySaved(newCityName) {
     }
 }
 
+
+// below part is only to add standard location
 async function addBytom() {
     return new Location('bytom', 18.9231857, 50.3470387)
 }
