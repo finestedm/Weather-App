@@ -235,7 +235,7 @@ body {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: minmax(300px, 8fr) 30fr minmax(500px, 15fr);
+    grid-template-columns: minmax(250px, 8fr) 30fr minmax(400px, 15fr);
 }
 
 nav#sidenavbar {
@@ -602,7 +602,7 @@ section.minmaxtemp>p {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 #aside--five-day-single-interval-panel {
@@ -620,7 +620,7 @@ section.minmaxtemp>p {
 #aside--today>h3 {
     flex: 1 1 100%;
     text-align: left;
-    font-weight: 500;
+    margin-bottom: 1rem;
 }
 
 #aside--today>#aside--single-interval-panel {
@@ -679,4 +679,89 @@ sup {
     text-align: center;
     font-size: 1.6rem;
     font-weight: 500;
+}
+
+/* smartphone design */
+
+@media only screen and (max-width: 1000px) {
+
+    body {
+        height: auto;
+    }
+
+    .app-window {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #list-of-saved-locations {
+        display: flex;
+        overflow-x: scroll;
+    }
+
+    #list-of-saved-locations>li {
+        width: 20ch;
+        border: 3px solid var(--background-gray);
+        background-color: var(--background-gray);
+        padding: .5rem 1rem;
+        border-radius: .4rem;
+        margin-right: 1rem;
+        justify-content: center;
+    }
+
+    #list-of-saved-locations>li>img {
+        margin-right: 5%;
+    }
+
+    #location-search-bar-wrapper {
+        padding: 0;
+        margin: 1rem 3rem;
+    }
+
+    nav#sidenavbar {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0;
+    }
+
+    #list-of-saved-locations-holder {
+        margin: 1rem 3rem;
+    }
+
+    #list-of-saved-locations-holder>h2 {
+        margin: .5rem;
+    }
+    
+    #list-of-saved-locations>li.active-location {
+        border: 3px solid var(--accent-color-purple);
+        font-weight: 700;
+    }
+    
+    #list-of-saved-locations > li::after{
+        content: '';
+    }
+
+
+}
+
+/* tablet design */
+
+@media only screen and (min-width: 1001px) and (max-width: 1300px) {
+
+    .app-window {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template: 1fr 1fr / minmax(250px, 1fr) 3fr;
+    }
+
+    nav#sidenavbar {
+        grid-area: 1 / 1 / -1 / 2;
+    }
+
+    #side-week-forecast-section {
+        border: none;
+    }
 }

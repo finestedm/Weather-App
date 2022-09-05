@@ -21,7 +21,7 @@ export async function displayFiveDayForecastForSelectedLocation(locationObject) 
     const weatherHolderTodayPart = document.createElement('section');
     weatherHolderTodayPart.id = 'aside--today';
     const weatherHolderTodayPartHeader = document.createElement('h3'); //
-    weatherHolderTodayPartHeader.innerText = 'Today';
+    weatherHolderTodayPartHeader.innerText = 'Later today';
     weatherHolderTodayPart.append(weatherHolderTodayPartHeader);
 
 
