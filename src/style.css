@@ -619,7 +619,7 @@ section.minmaxtemp>p {
 
 #aside--today>h3 {
     flex: 1 1 100%;
-    text-align: center;
+    text-align: left;
     font-weight: 500;
 }
 
@@ -630,7 +630,7 @@ section.minmaxtemp>p {
     align-items: center;
     justify-content: space-between;
     border-radius: .4rem;
-    padding: 2rem;
+    padding: 1rem 0rem;
 }
 
 #aside--single-interval-panel:nth-of-type(1) {
