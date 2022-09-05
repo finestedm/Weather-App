@@ -162,7 +162,7 @@ export function createCurrentTempMinMaxPanel(weatherData) {
     const currentTempMinMax = document.createElement('p');
     currentTempMinMax.id = 'current-weather-temp-min-max';
     currentTempMinMax.classList.add('main', 'current', 'weather-panel', 'temp', 'min-max')
-    currentTempMinMax.innerHTML = ` ${stringIntoTemp(weatherData.main.temp_min)}<small> ℃ </small> - ${stringIntoTemp(weatherData.main.temp_max)}<small> ℃ </small>`;
+    currentTempMinMax.innerHTML = ` ${stringIntoTemp(weatherData.main.temp_min)}<small> °C </small> - ${stringIntoTemp(weatherData.main.temp_max)}<small> °C </small>`;
 
     const minMaxTempPanelHeader = document.createElement('h3'); //
     minMaxTempPanelHeader.innerText = 'Temperature';

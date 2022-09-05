@@ -31,7 +31,11 @@ export async function displayFiveDayForecastForSelectedLocation(locationObject) 
     const forecastDataForThisLocation = await fetchFiveDayWeatherData(locationObject);
 
     forecastDataForThisLocation.list.forEach(singleForecastInterval => {
-        checkIfForecastForToday(singleForecastInterval) ? weatherHolderTodayPart.append(createTodayForecastDiv(singleForecastInterval)) : weatherHolderFiveDaysPart.append(createFiveDayForecastDiv(singleForecastInterval));
+        if (checkIfForecastForToday(singleForecastInterval)) {
+            weatherHolderTodayPart.append(createTodayForecastDiv(singleForecastInterval))
+        } else if ((!(checkIfForecastForToday(singleForecastInterval))) && (format(fromUnixTime(singleForecastInterval.dt), 'H:mm') == '14:00')) {  // get only one interval which is for 14:00. Ignoring all the rest of days
+            weatherHolderFiveDaysPart.append(createFiveDayForecastDiv(singleForecastInterval));
+        }
     })
 
     weatherHolder.append(weatherHolderTodayPart, weatherHolderFiveDaysPart);
@@ -66,14 +70,14 @@ function createTodayForecastDiv(singleForecastInterval) {
     const todayIntervalPanelTemp = document.createElement('p');
     todayIntervalPanelTemp.id = 'aside--single-interval-panel-temp';
     todayIntervalPanelTemp.classList.add('aside', 'single-interval-panel', 'temp');
-    todayIntervalPanelTemp.innerText = stringIntoTemp(singleForecastInterval.main.temp)
+    todayIntervalPanelTemp.innerHTML = `${stringIntoTemp(singleForecastInterval.main.temp)} <sup>°C</sup>`
 
     const todayIntervalPanelTime = document.createElement('p');
     todayIntervalPanelTime.id = 'aside--single-interval-panel-time';
     todayIntervalPanelTime.classList.add('aside', 'single-interval-panel', 'time');
     todayIntervalPanelTime.innerText = format(fromUnixTime(singleForecastInterval.dt), 'H:mm')
 
-    todayIntervalPanel.append(todayIntervalPanelIcon, todayIntervalPanelTemp, todayIntervalPanelTime)
+    todayIntervalPanel.append(todayIntervalPanelTime, todayIntervalPanelIcon, todayIntervalPanelTemp)
     return todayIntervalPanel
 
 }
@@ -89,13 +93,13 @@ function createFiveDayForecastDiv(singleForecastInterval) {
     const fiveDayIntervalPanelTemp = document.createElement('p');
     fiveDayIntervalPanelTemp.id = 'aside--five-day-single-interval-panel-temp';
     fiveDayIntervalPanelTemp.classList.add('aside', 'five-day', 'single-interval-panel', 'temp');
-    fiveDayIntervalPanelTemp.innerText = stringIntoTemp(singleForecastInterval.main.temp)
+    fiveDayIntervalPanelTemp.innerHTML = `${stringIntoTemp(singleForecastInterval.main.temp)}<sup>°C<sup>`
 
     const fiveDayIntervalPanelDate = document.createElement('p');
     fiveDayIntervalPanelDate.id = 'aside--five-day-single-interval-panel-date';
     fiveDayIntervalPanelDate.classList.add('aside', 'five-day', 'single-interval-panel', 'date');
-    fiveDayIntervalPanelDate.innerText = format(fromUnixTime(singleForecastInterval.dt), 'eee, d LLL')
+    fiveDayIntervalPanelDate.innerHTML = `${format(fromUnixTime(singleForecastInterval.dt), 'eeee')} <br> <span> ${format(fromUnixTime(singleForecastInterval.dt), 'd LLL')} </span>`
 
-    fiveDayIntervalPanel.append(fiveDayIntervalPanelIcon, fiveDayIntervalPanelTemp, fiveDayIntervalPanelDate)
+    fiveDayIntervalPanel.append(fiveDayIntervalPanelDate, fiveDayIntervalPanelTemp, fiveDayIntervalPanelIcon)
     return fiveDayIntervalPanel
 }
