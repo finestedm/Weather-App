@@ -136,7 +136,7 @@ table {
 *,
 body {
     font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
+    font-size: var(--font-normal);
 }
 
 :root {
@@ -166,6 +166,9 @@ body {
     /* --background-rain: linear-gradient(170deg, rgba(149, 172, 193, 1) 0%, rgb(63, 97, 124) 22%, rgb(79, 110, 143) 100%); */
     --background-rain: url(' ./assets/background-images/rain.jpg');
     --text-rain: #24303b;
+    --font-normal: 1.3rem;
+    --font-bigger: 1.6rem;
+    --font-small: 1rem;
 }
 
 .clear {
@@ -305,12 +308,12 @@ select {
 }
 
 small {
-    font-size: 1rem;
+    font-size: var(--font-small);
 }
 
 #list-of-saved-locations-holder>h2 {
     color: var(--text-color-10);
-    font-size: 1rem;
+    font-size: var(--font-small);
     font-weight: 600;
     letter-spacing: .25px;
     margin-top: 3rem;
@@ -319,7 +322,7 @@ small {
 
 #list-of-saved-locations>li {
     color: var(--text-color-30);
-    font-size: 1.3rem;
+    font-size: var(--font-normal);
     letter-spacing: -.7px;
     text-transform: capitalize;
     position: relative;
@@ -441,7 +444,7 @@ small {
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-city {
-    font-size: 1.6rem;
+    font-size: var(--font-bigger);
     margin-right: auto;
     position: relative;
     font-weight: 500;
@@ -451,15 +454,15 @@ small {
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-city-icon {
     mask: url('./assets/icons/location2.svg');
-    mask-size: 1.6rem;
+    mask-size:  var(--font-normal);
     position: relative;
-    height: 1.6rem;
-    width: 1.6rem;
+    height:  var(--font-normal);
+    width:  var(--font-normal);
     left: -.25rem;
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-date {
-    font-size: 1.3rem;
+    font-size: var(--font-normal);
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-temp {
@@ -485,7 +488,7 @@ small {
 }
 
 #main--weather-panel-wrapper>#current-weather-panel>#current-weather-panel-bottom-line>* {
-    width: 150px;
+    width: 10ch;
 }
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure {
@@ -496,10 +499,10 @@ small {
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-pressure-icon {
     mask: url('./assets/icons/pressure.svg');
-    mask-size: 1.33rem;
+    mask-size: var(--font-normal);
     position: relative;
-    height: 1.33rem;
-    width: 1.33rem;
+    height: var(--font-normal);
+    width: var(--font-normal);
     margin-right: .5rem;
     top: -.05rem;
 }
@@ -537,7 +540,7 @@ small {
 
 section.wind>h3,
 section.minmaxtemp>h3 {
-    font-size: 1.6rem;
+    font-size: var(--font-bigger);
     font-weight: 500;
 }
 
@@ -549,7 +552,7 @@ section.minmaxtemp>h4 {
 
 section.wind>p,
 section.minmaxtemp>p {
-    font-size: 1.6rem;
+    font-size: var(--font-bigger);
     font-weight: 500
 }
 
@@ -561,10 +564,10 @@ section.minmaxtemp>p {
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-rain-icon {
     mask: url('./assets/icons/drop.svg');
-    mask-size: 1.2rem;
+    mask-size:  var(--font-normal);
     position: relative;
-    height: 1.2rem;
-    width: 1.2rem;
+    height:  var(--font-normal);
+    width:  var(--font-normal);
     margin-right: .5rem;
 }
 
@@ -577,10 +580,10 @@ section.minmaxtemp>p {
 
 #main--weather-panel-wrapper>#current-weather-panel #current-weather-wind-icon {
     mask: url('./assets/icons/wind-2.svg');
-    mask-size: 1.6rem;
+    mask-size:  var(--font-normal);
     position: relative;
-    height: 1.6rem;
-    width: 1.6rem;
+    height:  var(--font-normal);
+    width:  var(--font-normal);
     margin-right: .5rem;
 }
 
@@ -644,7 +647,7 @@ section.minmaxtemp>p {
 
 #aside--today>#aside--single-interval-panel .temp {
     font-weight: 500;
-    font-size: 1.66rem;
+    font-size: var(--font-bigger);
 }
 
 
@@ -677,13 +680,19 @@ sup {
 
 #aside--weather-panel-wrapper>#aside--five-days>#aside--five-day-single-interval-panel .temp {
     text-align: center;
-    font-size: 1.6rem;
+    font-size: var(--font-bigger);
     font-weight: 500;
 }
 
 /* smartphone design */
 
 @media only screen and (max-width: 1000px) {
+
+    :root {
+        --font-normal: 2.1rem;
+        --font-bigger: 2.56rem;
+        --font-small: 1.6rem;
+    }
 
     body {
         height: auto;
@@ -699,15 +708,31 @@ sup {
     #list-of-saved-locations {
         display: flex;
         overflow-x: scroll;
+        gap: 2rem;
     }
 
+    #main--weather-panel-wrapper > #current-weather-panel #current-weather-temp{
+        font-size: 15rem;
+        letter-spacing: -3rem;
+        position: relative;
+    }
+
+
+    #main--weather-panel-wrapper > #current-weather-panel #current-weather-temp::after{
+        font-size: 5rem;
+        position: relative;
+        vertical-align: super;
+        top: -2rem;
+        right: -2rem;
+    }
+
+
     #list-of-saved-locations>li {
-        width: 20ch;
+        flex: 1 1 100%;
         border: 3px solid var(--background-gray);
         background-color: var(--background-gray);
-        padding: .5rem 1rem;
+        padding: 2rem 1rem;
         border-radius: .4rem;
-        margin-right: 1rem;
         justify-content: center;
     }
 
@@ -718,6 +743,13 @@ sup {
     #location-search-bar-wrapper {
         padding: 0;
         margin: 1rem 3rem;
+        margin-bottom: 3rem;
+    }
+
+    input#location-search-bar {
+        line-height: 3rem;
+        font-size: var(--font-bigger);
+        padding: 1.25rem;
     }
 
     nav#sidenavbar {
@@ -733,16 +765,39 @@ sup {
     #list-of-saved-locations-holder>h2 {
         margin: .5rem;
     }
-    
+
     #list-of-saved-locations>li.active-location {
         border: 3px solid var(--accent-color-purple);
         font-weight: 700;
     }
-    
-    #list-of-saved-locations > li::after{
+
+    #list-of-saved-locations>li::after {
         content: '';
     }
 
+    #main--weather-panel-wrapper > #current-weather-wind-panel, #main--weather-panel-wrapper > #current-weather-temp-minmax-panel{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-content: space-between;
+        justify-content: space-between
+    }
+
+    #aside--today > #aside--single-interval-panel{
+        height: 175px;
+        padding: 1.5rem 0;
+    }
+
+    #aside--weather-panel-wrapper > #aside--five-days{
+        margin-top: 3rem;
+        gap:3rem;
+    }
+
+    #side-week-forecast-section img{
+        height: 5rem;
+        width: 5rem;
+        background-size: 5rem;
+    }
 
 }
 
