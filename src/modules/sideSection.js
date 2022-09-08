@@ -64,8 +64,10 @@ function createTodayForecastDiv(singleForecastInterval) {
     todayIntervalPanel.id = 'aside--single-interval-panel';
     todayIntervalPanel.classList.add('aside', 'single-interval-panel');
 
+    const todayIntervalPanelIconHolder = document.createElement('div');
     const todayIntervalPanelIcon = document.createElement('img');
     todayIntervalPanelIcon.src = (getIconSvgURL(conditionsIdIntoString(singleForecastInterval.weather[0].id)));
+    todayIntervalPanelIconHolder.append(todayIntervalPanelIcon)
 
     const todayIntervalPanelTemp = document.createElement('p');
     todayIntervalPanelTemp.id = 'aside--single-interval-panel-temp';
@@ -77,7 +79,7 @@ function createTodayForecastDiv(singleForecastInterval) {
     todayIntervalPanelTime.classList.add('aside', 'single-interval-panel', 'time');
     todayIntervalPanelTime.innerText = format(fromUnixTime(singleForecastInterval.dt), 'H:mm')
 
-    todayIntervalPanel.append(todayIntervalPanelTime, todayIntervalPanelIcon, todayIntervalPanelTemp)
+    todayIntervalPanel.append(todayIntervalPanelTime, todayIntervalPanelIconHolder, todayIntervalPanelTemp)
     return todayIntervalPanel
 
 }
@@ -87,8 +89,10 @@ function createFiveDayForecastDiv(singleForecastInterval) {
     fiveDayIntervalPanel.id = 'aside--five-day-single-interval-panel';
     fiveDayIntervalPanel.classList.add('aside', 'five-day', 'single-interval-panel');
 
+    const fiveDayIntervalPanelIconHolder = document.createElement('div');
     const fiveDayIntervalPanelIcon = document.createElement('img');
     fiveDayIntervalPanelIcon.src = (getIconSvgURL(conditionsIdIntoString(singleForecastInterval.weather[0].id)));
+    fiveDayIntervalPanelIconHolder.append(fiveDayIntervalPanelIcon);
 
     const fiveDayIntervalPanelTemp = document.createElement('p');
     fiveDayIntervalPanelTemp.id = 'aside--five-day-single-interval-panel-temp';
@@ -100,6 +104,6 @@ function createFiveDayForecastDiv(singleForecastInterval) {
     fiveDayIntervalPanelDate.classList.add('aside', 'five-day', 'single-interval-panel', 'date');
     fiveDayIntervalPanelDate.innerHTML = `${format(fromUnixTime(singleForecastInterval.dt), 'eeee')} <br> <span> ${format(fromUnixTime(singleForecastInterval.dt), 'd LLL')} </span>`
 
-    fiveDayIntervalPanel.append(fiveDayIntervalPanelDate, fiveDayIntervalPanelTemp, fiveDayIntervalPanelIcon)
+    fiveDayIntervalPanel.append(fiveDayIntervalPanelDate, fiveDayIntervalPanelTemp, fiveDayIntervalPanelIconHolder)
     return fiveDayIntervalPanel
 }
