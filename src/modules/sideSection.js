@@ -11,9 +11,9 @@ export default function generateSideWeekForecastSection() {
 }
 export async function displayFiveDayForecastForSelectedLocation(locationObject) {
     const asideSection = document.getElementById('side-week-forecast-section');
-    try {
+    try {      
         asideSection.innerHTML = ''; // clearing side section before appending different city forecast
-    } catch { }
+    } catch {}
 
     const weatherHolder = document.createElement('div');
     weatherHolder.id = 'aside--weather-panel-wrapper';
@@ -33,8 +33,8 @@ export async function displayFiveDayForecastForSelectedLocation(locationObject) 
     forecastDataForThisLocation.list.forEach(singleForecastInterval => {
         if (checkIfForecastForToday(singleForecastInterval)) {
             weatherHolderTodayPart.append(createTodayForecastDiv(singleForecastInterval))
-        } else if ((!(checkIfForecastForToday(singleForecastInterval))) && (format(fromUnixTime(singleForecastInterval.dt), 'H:mm') == '14:00')) {  // get only one interval which is for 14:00. Ignoring all the rest of days
-            weatherHolderFiveDaysPart.append(createFiveDayForecastDiv(singleForecastInterval));
+        } else if ((!(checkIfForecastForToday(singleForecastInterval))) && (format(fromUnixTime(singleForecastInterval.dt), 'H:mm') == '13:00')) {  // get only one interval which is for 14:00. Ignoring all the rest of days
+            weatherHolderFiveDaysPart.append(createFiveDayForecastDiv(singleForecastInterval));           
         }
     })
 

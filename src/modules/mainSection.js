@@ -31,6 +31,5 @@ export async function displayForecastForSelectedLocation(locationObject) {
 export async function fetchCurrentWeatherData(locationObject) {
     const response = await fetch(`${locationObject.currentWeatherURL}`, { mode: 'cors' });
     const responseJson = await response.json();
-    console.log(responseJson);
     return responseJson
 }
